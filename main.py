@@ -12,14 +12,14 @@ words_list = words_file.to_dict(orient="records")
 chosen_item={}
 
 def pick_a_word():
-    global chosen_item
+    global chosen_item, flip_timer
     chosen_item = choice(words_list)
-
+    window.after_cancel(flip_timer)
     chosen_word = chosen_item['French']
     canvas.itemconfig(card_title, text="French", fill="black")
     canvas.itemconfig(card_word, text=f"{chosen_word}", fill="black")
     canvas.itemconfig(card_image, image= card_front)
-    window.after(3000, func=flip_card)
+    flip_timer = window.after(3000, func=flip_card)
 
 
 def flip_card():
@@ -33,7 +33,7 @@ window = Tk()
 window.title("Flashy")
 window.config(padx=50, pady=50, bg=BACKGROUND_COLOR)
 
-window.after(3000, func= flip_card)
+flip_timer = window.after(3000, func= flip_card)
 
 # Canvas
 canvas = Canvas(width=800, height=526, bg=BACKGROUND_COLOR, highlightthickness=0)
